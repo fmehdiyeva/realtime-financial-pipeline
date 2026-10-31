@@ -1,11 +1,19 @@
+import sys
+import os
+
+# Add project root directory to Python path for Streamlit Cloud
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import streamlit as st
 import pandas as pd
 import sqlite3
-import os
 import time
 import threading
 
-# Import the background continuous pipeline functions
+# Ensure database directory exists
+os.makedirs('database', exist_ok=True)
+
+# Import background continuous pipeline functions
 from data_generator.stream import stream_data
 from pipeline.etl import run_continuous_etl
 
