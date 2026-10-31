@@ -30,22 +30,24 @@ start_background_pipeline()
 
 DB_PATH = 'database/financial_data.db'
 
-# Configure page tab title and icon
+# High-resolution vector icon URL for clean branding
+LOGO_URL = "https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f4c8.svg"
+
+# Configure browser tab (replaces default Streamlit icon in browser tab)
 st.set_page_config(
     page_title="Real-Time Financial Analytics",
-    page_icon="📈",
+    page_icon=LOGO_URL,
     layout="wide"
 )
 
-# Header layout with elegant logo and typography
+# Streamlit native sidebar logo component
+st.logo(LOGO_URL, icon_image=LOGO_URL)
+
+# Header layout with elegant typography
 col_logo, col_header = st.columns([0.06, 0.94])
 
 with col_logo:
-    # Uses assets/logo.svg if created, fallback to clean vector
-    if os.path.exists("assets/logo.svg"):
-        st.image("assets/logo.svg", width=52)
-    else:
-        st.markdown("## 📈")
+    st.image(LOGO_URL, width=48)
 
 with col_header:
     st.markdown("""
