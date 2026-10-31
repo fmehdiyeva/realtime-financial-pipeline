@@ -30,34 +30,65 @@ start_background_pipeline()
 
 DB_PATH = 'database/financial_data.db'
 
-# High-resolution vector icon URL for clean branding
-LOGO_URL = "https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f4c8.svg"
-
-# Configure browser tab (replaces default Streamlit icon in browser tab)
+# Configure page tab title
 st.set_page_config(
     page_title="Real-Time Financial Analytics",
-    page_icon=LOGO_URL,
     layout="wide"
 )
 
-# Streamlit native sidebar logo component
-st.logo(LOGO_URL, icon_image=LOGO_URL)
+# Custom CSS for executive dark theme
+st.markdown("""
+    <style>
+        /* Hide top red decoration bar & sidebar logo area */
+        [data-testid="stHeader"] {
+            background-color: rgba(0,0,0,0);
+        }
+        div[data-testid="stDecoration"] {
+            display: none;
+        }
+        [data-testid="stSidebarHeader"] {
+            display: none;
+        }
+        .block-container {
+            padding-top: 1.8rem;
+        }
+        
+        /* Modern executive header styling */
+        .header-title {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: -0.8px;
+            color: #F0F6FC;
+            margin-bottom: 4px;
+        }
+        .header-subtitle {
+            color: #8B949E;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: #161B22;
+            border: 1px solid #30363D;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.78rem;
+            color: #58A6FF;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-# Header layout with elegant typography
-col_logo, col_header = st.columns([0.06, 0.94])
-
-with col_logo:
-    st.image(LOGO_URL, width=48)
-
-with col_header:
-    st.markdown("""
-        <h1 style='font-weight: 300; letter-spacing: -0.5px; margin-bottom: 0px;'>
-            Real-Time Financial Analytics
-        </h1>
-        <p style='color: #808495; font-size: 0.95rem; margin-top: -5px;'>
-            High-Frequency Stream Ingestion &bull; Pydantic DLQ Validation &bull; 5m Rolling Metrics
-        </p>
-    """, unsafe_allow_html=True)
+# Executive typography header with status badge
+st.markdown("""
+    <div class="status-badge">● LIVE PIPELINE ACTIVE</div>
+    <div class="header-title">Real-Time Financial Analytics</div>
+    <div class="header-subtitle">
+        High-Frequency Stream Ingestion &nbsp;•&nbsp; Pydantic DLQ Validation &nbsp;•&nbsp; 5m Rolling Metrics
+    </div>
+""", unsafe_allow_html=True)
 
 st.divider()
 
