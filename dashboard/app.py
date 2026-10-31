@@ -30,14 +30,38 @@ start_background_pipeline()
 
 DB_PATH = 'database/financial_data.db'
 
-st.set_page_config(page_title="MS Real-Time Financial Dashboard", layout="wide")
+# Configure page tab title and icon
+st.set_page_config(
+    page_title="Real-Time Financial Analytics",
+    page_icon="📈",
+    layout="wide"
+)
+
+# Header layout with elegant logo and typography
+col_logo, col_header = st.columns([0.06, 0.94])
+
+with col_logo:
+    # Uses assets/logo.svg if created, fallback to clean vector
+    if os.path.exists("assets/logo.svg"):
+        st.image("assets/logo.svg", width=52)
+    else:
+        st.markdown("## 📈")
+
+with col_header:
+    st.markdown("""
+        <h1 style='font-weight: 300; letter-spacing: -0.5px; margin-bottom: 0px;'>
+            Real-Time Financial Analytics
+        </h1>
+        <p style='color: #808495; font-size: 0.95rem; margin-top: -5px;'>
+            High-Frequency Stream Ingestion &bull; Pydantic DLQ Validation &bull; 5m Rolling Metrics
+        </p>
+    """, unsafe_allow_html=True)
+
+st.divider()
 
 # Auto-refresh logic
 if "last_refresh" not in st.session_state:
     st.session_state.last_refresh = time.time()
-
-st.title("📊 Real-Time Financial Data Dashboard")
-st.markdown("### Trading Volume & Trade Count per Minute")
 
 def get_data():
     if not os.path.exists(DB_PATH):
@@ -58,7 +82,7 @@ def get_data():
 
 aggregates, trades, dlq_count, valid_count = get_data()
 
-# DLQ Warning
+# DLQ Warning Banner
 total_records = dlq_count + valid_count
 if total_records > 0:
     error_rate = (dlq_count / total_records) * 100
@@ -85,12 +109,12 @@ if aggregates is not None and not aggregates.empty:
     st.subheader("Recent Cleaned Trades")
     st.dataframe(trades, use_container_width=True)
 else:
-    st.warning("No data found in database. Please run the ETL pipeline first.")
+    st.warning("No data found in database. Initializing pipeline...")
 
 # Manual refresh button
 if st.button('Manual Refresh'):
     st.rerun()
 
-# Auto-refresh every 2 seconds
+# Auto-refresh loop
 time.sleep(2)
 st.rerun()
